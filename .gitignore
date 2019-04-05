@@ -1,0 +1,8 @@
+#exclude data files
+/__pychache__/*
+/data/*
+/docs/*
+/*.csv
+/keyphrase extraction/*
+/topic modeling/*
+
