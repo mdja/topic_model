@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+by mdja, itb, 2019
+"""
+
 import numpy as np
 from scipy.sparse.csr import csr_matrix
 from collections import Counter

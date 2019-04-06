@@ -1,9 +1,13 @@
-import numpy as np
+# -*- coding: utf-8 -*-
+"""
+by mdja, itb, 2019
+"""
+
 import pandas as pd
 import papertextprocessing as pt
 #from IPython.display import display
 #from tqdm import tqdm
-from collections import Counter
+#from collections import Counter
 
 import nltk
  

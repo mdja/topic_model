@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Apr  6 11:02:45 2019
-by mdja
+by mdja, itb, 2019
 based on : https://github.com/delestro/rand_cmap, diubah xrange->range
 """
 
@@ -87,7 +86,6 @@ def convert_to_bokeh_colormap(matlib_colormap, n_labels):
     colors = []
     for i in range(n_labels):
         color = [int(255 * i) for i in matlib_colormap(i)[:3]]
-#        print("#%02x%02x%02x"%(color[0], color[1], color[2]))
         color = "#%02x%02x%02x"%(color[0], color[1], color[2])
         colors.append(color.upper())
     colors = np.array(colors)

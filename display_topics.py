@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Apr  6 09:19:31 2019
-
-@author: lenovo pc
+by mdja, itb, 2019
 """
 
 import numpy as np
@@ -176,6 +174,6 @@ mean_topic_vectors = topic_utilities.get_mean_topic_vectors(n_topics, lda_keys, 
 
 output_fn = 'ouputldatsne.html'
 title="t-SNE Clustering of {} LDA Topics"
-matlib_colormap = generate_colormap.rand_cmap(n_topics, type='bright', first_color_black=False, last_color_black=False, verbose=True)
+matlib_colormap = generate_colormap.rand_cmap(n_topics, type='bright', first_color_black=False, last_color_black=True, verbose=True)
 colormap = generate_colormap.convert_to_bokeh_colormap(matlib_colormap, n_topics)
 display_tsne(output_fn, title, lsa_keys, mean_topic_vectors, top_3__word_topics, tsne_vectors, colormap)

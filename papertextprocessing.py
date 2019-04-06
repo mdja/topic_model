@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+by mdja, itb, 2019
+"""
+
 import re
 
 from nltk.corpus import stopwords

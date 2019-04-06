@@ -1,4 +1,9 @@
-import numpy as np
+# -*- coding: utf-8 -*-
+"""
+by mdja, itb, 2019
+"""
+
+#import numpy as np
 import pandas as pd
 import topic_utilities
 #from IPython.display import display
