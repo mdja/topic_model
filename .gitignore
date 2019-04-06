@@ -7,3 +7,6 @@
 /keyphrase extraction/*
 /topic modeling/*
 paper45.pdf
+*.~vsdx
+*.pptx
+*.dat

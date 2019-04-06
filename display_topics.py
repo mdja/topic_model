@@ -38,7 +38,7 @@ def display_top_n_words(text_data, n_top_words=10):
     ax.set_title('Top Words')
 
 '''
-Generate a histogram of paper word lengths, and use part-of-speech tagging to understand 
+Generate a histogram of paper word lengths, and use part-of-speech tagging to understand    
 the types of words used across the corpus. This requires first converting all paper text strings to TextBlobs 
 and calling the ```pos_tags``` method on each, yielding a list of tagged words for each paper_text.
 A complete list of such word tags is available [here](https://www.clips.uantwerpen.be/pages/MBSP-tags).
@@ -88,13 +88,16 @@ def display_topics_bar(n_topics, title, vectorizer, document_term_matrix, topic_
     
     keys = topic_utilities.get_keys(topic_matrix)
     categories, counts = topic_utilities.keys_to_counts(keys)
+    print(categories)
+    print(counts)
     top_n_topic = topic_utilities.get_top_n_words_topics(30, n_topics, keys, document_term_matrix, vectorizer)
     
     for i in range(len(top_n_topic)):
         print("Topic {}: ".format(i), top_n_topic[i])
         
     top_3_word_topics = topic_utilities.get_top_n_words_topics(3, n_topics, keys, document_term_matrix, vectorizer)
-    labels = ['Topic {}: \n'.format(i) + top_3_word_topics[i] for i in range(len(categories))]
+#    labels = ['Topic {}: \n'.format(i) + top_3_word_topics[i] for i in range(len(categories))]
+    labels = ['Topic {}: '.format(i)  for i in range(len(categories))]
     
     for i in range(len(top_3_word_topics)):
         print("Topic {}: ".format(i), top_3_word_topics[i])
