@@ -5,12 +5,21 @@ by mdja, itb, 2019
 
 import pandas as pd
 import papertextprocessing as pt
-#from IPython.display import display
-#from tqdm import tqdm
-#from collections import Counter
-
 import nltk
+import matplotlib.pyplot as plt
+
+from collections import Counter
  
+def display_graph(raw_data):
+    count_pairs = Counter(raw_data['year']).items()
+    categories = [pair[0] for pair in count_pairs]
+    counts = [pair[1] for pair in count_pairs]
+    fig, ax = plt.subplots(figsize=(30,8))
+    ax.bar(categories, counts)
+    ax.set_xticks(categories)
+    ax.set_xticklabels(categories)
+    ax.set_title('paper accepted')
+
 nltk.download('punkt')
 
 datafile = 'data/papers.csv'

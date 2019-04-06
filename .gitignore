@@ -2,6 +2,7 @@
 /__pycache__/*
 /data/*
 /docs/*
+/backups/*
 /*.csv
 /keyphrase extraction/*
 /topic modeling/*

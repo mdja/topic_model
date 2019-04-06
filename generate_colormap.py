@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 import colorsys
 import numpy as np
 from matplotlib import colors, colorbar
-from matplotlib import pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 
 # this will generate random color map n items

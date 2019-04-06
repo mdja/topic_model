@@ -33,7 +33,9 @@ def get_top_n_words(n_top_words, count_vectorizer, text_data):
 
 # Define helper functions
 def get_keys(topic_matrix):
-    '''returns an integer list of predicted topic categories for a given topic matrix'''
+    '''returns an integer list of predicted topic categories for a given topic matrix
+       by finding the max probability in each document matrix
+    '''
     keys = []
     for i in range(topic_matrix.shape[0]):
         keys.append(topic_matrix[i].argmax())
@@ -51,19 +53,50 @@ def get_top_n_words_topics(n, n_topics,  keys, document_term_matrix, count_vecto
     '''returns a list of n_topic strings, where each string contains the n most common 
         words in a predicted category, in order'''
     #print("n topics = {0}, keys= {1}".format(n_topics,keys))
-    top_word_indices = []
+    top_word_indices = []    
     for topic in range(n_topics):
         temp_vector_sum = 0
         for i in range(len(keys)):
             if keys[i] == topic:
-#                print("{0}, {1},{2}".format(i, keys[i], topic))
+#                print("{0}, {1},{2},{3}".format(i, keys[i], topic, temp_vector_sum))
                 temp_vector_sum += document_term_matrix[i]
         #print("temp_vector_sum = {0}".format(temp_vector_sum))
         if (isinstance(temp_vector_sum, csr_matrix)):
             temp_vector_sum = temp_vector_sum.toarray()
             top_n_word_indices = np.flip(np.argsort(temp_vector_sum)[0][-n:],0)
             top_word_indices.append(top_n_word_indices)   
+            
     top_words = []
+#    print(top_word_indices)
+    for topic in top_word_indices:
+        topic_words = []
+        for index in topic:
+            temp_word_vector = np.zeros((1,document_term_matrix.shape[1]))
+            temp_word_vector[:,index] = 1
+            the_word = count_vectorizer.inverse_transform(temp_word_vector)[0][0]
+            topic_words.append(the_word.encode('ascii').decode('utf-8'))
+        top_words.append(" ".join(topic_words))         
+    return top_words
+
+def get_top_n_words_alltopics(n, n_topics,  topic_matrix, document_term_matrix, count_vectorizer):
+    '''returns a list of n_topic strings, where each string contains the n most common 
+        words in a predicted category, in order'''
+    #print("n topics = {0}, keys= {1}".format(n_topics,keys))
+    top_word_indices = []
+    for topic in range(n_topics):
+        temp_vector_sum = 0
+        for i in range(n_topics):
+#            if keys[i] == topic:
+#                print("{0}, {1},{2},{3}".format(i, keys[i], topic, temp_vector_sum))
+            temp_vector_sum += document_term_matrix[i]
+        #print("temp_vector_sum = {0}".format(temp_vector_sum))
+        if (isinstance(temp_vector_sum, csr_matrix)):
+            temp_vector_sum = temp_vector_sum.toarray()
+            top_n_word_indices = np.flip(np.argsort(temp_vector_sum)[0][-n:],0)
+            top_word_indices.append(top_n_word_indices)   
+            
+    top_words = []
+#    print(top_word_indices)
     for topic in top_word_indices:
         topic_words = []
         for index in topic:

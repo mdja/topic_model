@@ -123,6 +123,14 @@ def display_tsne(output_fn, title, keys, mean_topic_vectors, top_3_topic, tsne_v
         
     show(plot)
 
+def print_doc_topics(topic_matrix, top_n_topics, nDoc):
+    msg = "{weight:02d}% in topic {topic_id:02d} which has top words : {text:s}"
+    for topic_id, weight in enumerate(topic_matrix[nDoc]):
+#        print(topic_id)
+        if weight > 0.01 and topic_id < len(top_n_topics):
+#            text = top_n_topics[topic_id]
+            print(msg.format(topic_id=topic_id, weight=int(weight * 100.0), text=top_n_topics[topic_id]))
+
 
 datafile = 'processed_papers.csv'
 raw_data = pd.read_csv(datafile)
@@ -157,10 +165,29 @@ matlib_colormap = generate_colormap.rand_cmap(n_topics, type='bright', first_col
 colormap = generate_colormap.convert_to_bokeh_colormap(matlib_colormap, n_topics)
 display_tsne(output_fn, title, lsa_keys, mean_topic_vectors, top_3__word_topics, tsne_vectors, colormap)
 
-###############   LDA #########################
+################## NMF ######################
+count_vectorizer = joblib.load('count_vectorizer_nmf.dat')
+document_term_matrix_tfidf_norm = joblib.load('document_term_matrix_tfidf_norm.dat')
+nmf_topic_matrix = joblib.load('nmf_topic_matrix.dat')
+title = 'NMF Topic Category Counts'
+display_topics_bar(n_topics, title, count_vectorizer, document_term_matrix_tfidf_norm,nmf_topic_matrix)
 
-count_vectorizer = joblib.load('count_vectorizer.dat')
-document_term_matrix_count = joblib.load('document_term_matrix_count.dat')
+tsne_model = joblib.load('tsne_nmf_model.dat')
+tsne_vectors = joblib.load('tsne_nmf_vectors.dat')
+
+nmf_keys = topic_utilities.get_keys(nmf_topic_matrix)
+top_3__word_topics = topic_utilities.get_top_n_words_topics(3, n_topics, nmf_keys, document_term_matrix_tfidf_norm, count_vectorizer)
+mean_topic_vectors = topic_utilities.get_mean_topic_vectors(n_topics, nmf_keys, tsne_vectors)
+
+output_fn = 'ouputldatnmf.html'
+title="t-SNE Clustering of {} PLSA Topics"
+matlib_colormap = generate_colormap.rand_cmap(n_topics, type='bright', first_color_black=False, last_color_black=True, verbose=True)
+colormap = generate_colormap.convert_to_bokeh_colormap(matlib_colormap, n_topics)
+display_tsne(output_fn, title, nmf_keys, mean_topic_vectors, top_3__word_topics, tsne_vectors, colormap)
+
+###############   LDA #########################
+count_vectorizer = joblib.load('count_vectorizer_lda.dat')
+document_term_matrix_count = joblib.load('document_term_matrix_count_lda.dat')
 lda_topic_matrix = joblib.load('lda_topic_matrix.dat')
 title = 'LDA Topic Category Counts'
 display_topics_bar(n_topics, title, count_vectorizer, document_term_matrix_count,lda_topic_matrix)
@@ -177,3 +204,6 @@ title="t-SNE Clustering of {} LDA Topics"
 matlib_colormap = generate_colormap.rand_cmap(n_topics, type='bright', first_color_black=False, last_color_black=True, verbose=True)
 colormap = generate_colormap.convert_to_bokeh_colormap(matlib_colormap, n_topics)
 display_tsne(output_fn, title, lsa_keys, mean_topic_vectors, top_3__word_topics, tsne_vectors, colormap)
+
+top_n_topic = topic_utilities.get_top_n_words_topics(30, n_topics, lda_keys, document_term_matrix_count, count_vectorizer)
+print_doc_topics(lda_topic_matrix, top_n_topic, 1)
