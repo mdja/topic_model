@@ -5,5 +5,6 @@ https://www.kaggle.com/benhamner/nips-papers
 
 ### Metode yang digunakan ###
 - LSA
+- NMF 
 - LDA
 
