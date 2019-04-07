@@ -140,7 +140,7 @@ raw_data = pd.read_csv(datafile)
 
 reindexed_data = raw_data['clean_content']
 reindexed_data.index = raw_data['id']
-n_topics = 50
+n_topics = 20
 
 
 ############### DISPLAY WORD STATISTICS ###########################
@@ -152,6 +152,7 @@ n_topics = 50
 tfid_vectorizer = joblib.load('tfidf_vectorizer.dat')
 document_term_matrix_tfidf = joblib.load('document_term_matrix_tfidf.dat')
 lsa_topic_matrix = joblib.load('lsa_topic_matrix.dat')
+lsa_model = joblib.load('lsa_model.dat')
 title = 'LSA Topic Category Counts'
 display_topics_bar(n_topics, title, tfid_vectorizer, document_term_matrix_tfidf,lsa_topic_matrix)
 
@@ -172,6 +173,7 @@ display_tsne(output_fn, title, lsa_keys, mean_topic_vectors, top_3__word_topics,
 count_vectorizer = joblib.load('count_vectorizer_nmf.dat')
 document_term_matrix_tfidf_norm = joblib.load('document_term_matrix_tfidf_norm.dat')
 nmf_topic_matrix = joblib.load('nmf_topic_matrix.dat')
+nmf_model = joblib.load('nmf_model.dat')
 title = 'NMF Topic Category Counts'
 display_topics_bar(n_topics, title, count_vectorizer, document_term_matrix_tfidf_norm,nmf_topic_matrix)
 
@@ -183,7 +185,7 @@ top_3__word_topics = topic_utilities.get_top_n_words_topics(3, n_topics, nmf_key
 mean_topic_vectors = topic_utilities.get_mean_topic_vectors(n_topics, nmf_keys, tsne_vectors)
 
 output_fn = 'ouputldatnmf.html'
-title="t-SNE Clustering of {} PLSA Topics"
+title="t-SNE Clustering of {} NMF Topics"
 matlib_colormap = generate_colormap.rand_cmap(n_topics, type='bright', first_color_black=False, last_color_black=True, verbose=True)
 colormap = generate_colormap.convert_to_bokeh_colormap(matlib_colormap, n_topics)
 display_tsne(output_fn, title, nmf_keys, mean_topic_vectors, top_3__word_topics, tsne_vectors, colormap)
@@ -192,11 +194,14 @@ display_tsne(output_fn, title, nmf_keys, mean_topic_vectors, top_3__word_topics,
 count_vectorizer = joblib.load('count_vectorizer_lda.dat')
 document_term_matrix_count = joblib.load('document_term_matrix_count_lda.dat')
 lda_topic_matrix = joblib.load('lda_topic_matrix.dat')
+lda_model = joblib.load('lda_model.dat')
 title = 'LDA Topic Category Counts'
 display_topics_bar(n_topics, title, count_vectorizer, document_term_matrix_count,lda_topic_matrix)
 
 tsne_model = joblib.load('tsne_lda_model.dat')
 tsne_vectors = joblib.load('tsne_lda_vectors.dat')
+print("LDA : Log Likelihood: ",lda_model.score(document_term_matrix_count))
+print("LDA : Perplexity: ", lda_model.perplexity(document_term_matrix_count))
 
 lda_keys = topic_utilities.get_keys(lda_topic_matrix)
 top_3__word_topics = topic_utilities.get_top_n_words_topics(3, n_topics, lda_keys, document_term_matrix_count, count_vectorizer)
@@ -210,3 +215,5 @@ display_tsne(output_fn, title, lsa_keys, mean_topic_vectors, top_3__word_topics,
 
 top_n_topic = topic_utilities.get_top_n_words_topics(30, n_topics, lda_keys, document_term_matrix_count, count_vectorizer)
 print_doc_topics(lda_topic_matrix, top_n_topic, 1)
+
+

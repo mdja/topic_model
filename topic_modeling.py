@@ -69,14 +69,14 @@ tfid_vectorizer = TfidfVectorizer(stop_words='english', max_features=10000)
 #print('papers before tfidf vectorization: ', reindexed_data.iloc[123])
 document_term_matrix_tfidf = tfid_vectorizer.fit_transform(reindexed_data)
 #print('papers after tfidf vectorization: \n', document_term_matrix_tfidf[123])
-n_topics = 50
+n_topics = 20
 
 lsa_model = TruncatedSVD(n_components=n_topics)
 lsa_topic_matrix = lsa_model.fit_transform(document_term_matrix_tfidf)
 
 joblib.dump(tfid_vectorizer, 'tfidf_vectorizer.dat')
 joblib.dump(document_term_matrix_tfidf, 'document_term_matrix_tfidf.dat')
-#joblib.dump(lsa_model, 'lsa_model.dat')
+joblib.dump(lsa_model, 'lsa_model.dat')
 joblib.dump(lsa_topic_matrix, 'lsa_topic_matrix.dat')
 
 lsa_keys = topic_utilities.get_keys(lsa_topic_matrix)
@@ -93,7 +93,7 @@ joblib.dump(tsne_lsa_vectors, 'tsne_lsa_vectors.dat')
 
 ################ NMF ####################
 
-count_vectorizer = CountVectorizer(analyzer='word', max_features=10000);
+count_vectorizer = CountVectorizer(analyzer='word', max_features=20000);
 document_term_matrix_count = count_vectorizer.fit_transform(reindexed_data)
 transformer = TfidfTransformer(smooth_idf=False);
 document_term_matrix_tfidf = transformer.fit_transform(document_term_matrix_count);
@@ -104,7 +104,7 @@ nmf_topic_matrix = nmf_model.fit_transform(document_term_matrix_tfidf_norm)
 joblib.dump(count_vectorizer, 'count_vectorizer_nmf.dat')
 joblib.dump(document_term_matrix_count, 'document_term_matrix_count_nmf.dat')
 joblib.dump(document_term_matrix_tfidf_norm, 'document_term_matrix_tfidf_norm.dat')
-#joblib.dump(lsa_model, 'lsa_model.dat')
+joblib.dump(nmf_model, 'nmf_model.dat')
 joblib.dump(nmf_topic_matrix, 'nmf_topic_matrix.dat')
 
 tsne_nmf_model = TSNE(n_components=2, perplexity=50, learning_rate=100, 
@@ -115,18 +115,18 @@ joblib.dump(tsne_nmf_vectors, 'tsne_nmf_vectors.dat')
 
 ################ 3. Latent Dirichlet Allocation ####################
 
-count_vectorizer = CountVectorizer(stop_words='english', max_features=10000)
+count_vectorizer = CountVectorizer(stop_words='english', max_features=20000)
 document_term_matrix_count = count_vectorizer.fit_transform(reindexed_data)
 #print('papers after tfidf vectorization: \n', document_term_matrix_count[123])
 
 lda_model = LatentDirichletAllocation(n_components=n_topics, learning_method='online', 
-                                          random_state=0, verbose=0)
+                                          random_state=0, verbose=0, learning_decay=0.9)
 lda_topic_matrix = lda_model.fit_transform(document_term_matrix_count)
 
 
 joblib.dump(count_vectorizer, 'count_vectorizer_lda.dat')
 joblib.dump(document_term_matrix_count, 'document_term_matrix_count_lda.dat')
-#joblib.dump(lsa_model, 'lsa_model.dat')
+joblib.dump(lda_model, 'lda_model.dat')
 joblib.dump(lda_topic_matrix, 'lda_topic_matrix.dat')
 
 
