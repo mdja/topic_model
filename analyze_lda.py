@@ -22,7 +22,7 @@ document_term_matrix_count = joblib.load('document_term_matrix_count_lda.dat')
 lda_topic_matrix = joblib.load('lda_topic_matrix.dat')
 lda_model = joblib.load('lda_model.dat')
 
-_load_data_ = False
+_load_data_ = True
 model = None
 if (not _load_data_):
     # Define Search Param
@@ -35,6 +35,8 @@ if (not _load_data_):
     
     # Do the Grid Search
     model.fit(document_term_matrix_count)
+    
+    joblib.dump(model, 'model_gridsearch.dat')
 else:
     model = joblib.load('model_gridsearch.dat')
 # Best Model
@@ -54,7 +56,7 @@ print("Model Perplexity: ", best_lda_model.perplexity(document_term_matrix_count
 lda_output = best_lda_model.transform(document_term_matrix_count)
 
 # column names
-topicnames = ["Topic" + str(i) for i in range(best_lda_model.n_topics)]
+topicnames = ["Topic" + str(i) for i in range(best_lda_model.n_components)]
 
 # index names
 docnames = ["Doc" + str(i) for i in range(document_term_matrix_count.shape[0])]
