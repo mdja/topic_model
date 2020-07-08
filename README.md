@@ -1,10 +1,9 @@
-#Tugas NLP : Perbandingan Metode Topic Modeling#
+#Comparison of 3 Different Topic Modeling Methods#
 
-## dataset adalah NIPS Paper ##
+## dataset : NIPS Paper ##
 https://www.kaggle.com/benhamner/nips-papers
 
-### Metode yang digunakan ###
+### Metode for comparison ###
 - LSA
 - NMF 
 - LDA
-
