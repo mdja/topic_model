@@ -1,4 +1,4 @@
-#Comparison of 3 Different Topic Modeling Methods#
+Comparison of 3 Different Topic Modeling Methods
 
 ## dataset : NIPS Paper ##
 https://www.kaggle.com/benhamner/nips-papers
